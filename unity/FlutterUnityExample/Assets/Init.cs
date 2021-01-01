@@ -5,6 +5,7 @@ using UnityEngine;
 public class Init : MonoBehaviour
 {
     public GameObject models = null;
+    public GameObject cybertruck = null;
 
     void Start()
     {
@@ -12,7 +13,10 @@ public class Init : MonoBehaviour
         Screen.SetResolution(1280, 720, false);
 
         models = GameObject.Find("ModelS_Scene");
+        cybertruck = GameObject.Find("Cybertruck_Scene");
+
         models.SetActive(false);
+        cybertruck.SetActive(false);
     }
     
     public void loadModel(string data) {
@@ -21,7 +25,12 @@ public class Init : MonoBehaviour
         switch (message.data)
         {
             case "models":
+                cybertruck.SetActive(false);
                 models.SetActive(true);
+                break;
+            case "cybertruck":
+                models.SetActive(false);
+                cybertruck.SetActive(true);
                 break;
             default: break;
         }

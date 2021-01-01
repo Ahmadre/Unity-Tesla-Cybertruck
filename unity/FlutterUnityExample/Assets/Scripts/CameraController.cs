@@ -21,4 +21,13 @@ public class CameraController : MonoBehaviour
         cam.clearFlags = CameraClearFlags.SolidColor;
         cam.backgroundColor = color;
     }
+
+    public void showBack(string data) {
+        FlutterUnityPlugin.Message message = FlutterUnityPlugin.Messages.Receive(data);
+
+        // Flutter --> "true" or "false"
+
+        bool showBack = bool.Parse(message.data);
+        gameObject.GetComponent<Animator>().SetBool("showback", showBack);
+    }
 }

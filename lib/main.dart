@@ -25,6 +25,14 @@ class _UnityViewPageState extends State<UnityViewPage> {
 
   double speed = 0;
   double rotation = 0;
+  bool showBack = false;
+  bool openBlinds = false;
+  bool openTrunk = false;
+
+  bool openDFD = false;
+  bool openDRD = false;
+  bool openPFD = false;
+  bool openPRD = false;
 
   String actualModel = 'Model S';
 
@@ -66,6 +74,32 @@ class _UnityViewPageState extends State<UnityViewPage> {
               });
             },
           ),
+          PopupMenuButton<String>(
+            icon: Icon(
+              Icons.more_horiz,
+              color: contrastColor,
+            ),
+            onSelected: (String result) {
+              setState(() {
+                actualModel = result;
+              });
+              unityViewController.send(
+                'Init',
+                'loadModel',
+                result.replaceAll(' ', '').toLowerCase(),
+              );
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                value: 'Model S',
+                child: Text('Model S'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'Cybertruck',
+                child: Text('Cybertruck'),
+              ),
+            ],
+          )
         ],
       ),
       body: Column(
@@ -80,52 +114,97 @@ class _UnityViewPageState extends State<UnityViewPage> {
               ),
             ),
           ),
-          Card(
-            color: backgroundColor,
-            child: Column(
+          if (actualModel == 'Model S')
+            Card(
+              color: backgroundColor,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(25),
+                    child: Text('Rotation'),
+                  ),
+                  Slider.adaptive(
+                    min: 0,
+                    max: 100,
+                    value: rotation,
+                    onChanged: (val) {
+                      setState(() {
+                        rotation = val;
+                      });
+                      unityViewController.send(
+                        actualModel.replaceAll(' ', ''),
+                        'SetRotationSpeed',
+                        '${val.toInt()}',
+                      );
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(25),
+                    child: Divider(),
+                  ),
+                  Text('Speed'),
+                  Slider.adaptive(
+                    min: 0,
+                    max: 400,
+                    value: speed,
+                    onChanged: (val) {
+                      setState(() {
+                        speed = val;
+                      });
+                      unityViewController.send(
+                        actualModel.replaceAll(' ', ''),
+                        'SetCarSpeed',
+                        '${val.toInt()}',
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          if (actualModel == 'Cybertruck')
+            Wrap(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(25),
-                  child: Text('Rotation'),
-                ),
-                Slider.adaptive(
-                  min: 0,
-                  max: 100,
-                  value: rotation,
-                  onChanged: (val) {
+                RaisedButton(
+                  child: Text(showBack ? 'Show Front' : 'Show Back'),
+                  onPressed: () {
                     setState(() {
-                      rotation = val;
+                      showBack = !showBack;
                     });
                     unityViewController.send(
-                      actualModel.replaceAll(' ', ''),
-                      'SetRotationSpeed',
-                      '${val.toInt()}',
+                      'MainCamera',
+                      'showBack',
+                      '$showBack',
                     );
                   },
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(25),
-                  child: Divider(),
-                ),
-                Text('Speed'),
-                Slider.adaptive(
-                  min: 0,
-                  max: 400,
-                  value: speed,
-                  onChanged: (val) {
+                RaisedButton(
+                  child: Text(openBlinds ? 'Close Blinds' : 'Open Blinds'),
+                  onPressed: () {
                     setState(() {
-                      speed = val;
+                      openBlinds = !openBlinds;
                     });
                     unityViewController.send(
-                      actualModel.replaceAll(' ', ''),
-                      'SetCarSpeed',
-                      '${val.toInt()}',
+                      'Cybertruck',
+                      'toggle',
+                      'blinds,$openBlinds',
+                    );
+                  },
+                ),
+                RaisedButton(
+                  child: Text(openTrunk ? 'Close Trunk' : 'Open Trunk'),
+                  onPressed: () {
+                    setState(() {
+                      openTrunk = !openTrunk;
+                    });
+                    unityViewController.send(
+                      'Cybertruck',
+                      'toggle',
+                      'trunkdoor,$openTrunk',
                     );
                   },
                 ),
               ],
             ),
-          ),
         ],
       ),
     );
