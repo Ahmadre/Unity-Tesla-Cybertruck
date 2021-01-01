@@ -27,7 +27,6 @@ public class CameraController : MonoBehaviour
 
         // Flutter --> "true" or "false"
 
-        bool showBack = bool.Parse(message.data);
-        gameObject.GetComponent<Animator>().SetBool("showback", showBack);
+        gameObject.GetComponent<Animator>().SetBool("showback", bool.Parse(message.data));
     }
 }
