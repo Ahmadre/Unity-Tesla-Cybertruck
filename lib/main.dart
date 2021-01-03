@@ -203,6 +203,58 @@ class _UnityViewPageState extends State<UnityViewPage> {
                     );
                   },
                 ),
+                RaisedButton(
+                  child: Text(openDFD ? 'Close DFD' : 'Open DFD'),
+                  onPressed: () {
+                    setState(() {
+                      openDFD = !openDFD;
+                    });
+                    unityViewController.send(
+                      'Cybertruck',
+                      'toggle',
+                      'driverfrontdoor,$openDFD',
+                    );
+                  },
+                ),
+                RaisedButton(
+                  child: Text(openDRD ? 'Close DFD' : 'Open DFD'),
+                  onPressed: () {
+                    setState(() {
+                      openDRD = !openDRD;
+                    });
+                    unityViewController.send(
+                      'Cybertruck',
+                      'toggle',
+                      'driverreardoor,$openDRD',
+                    );
+                  },
+                ),
+                RaisedButton(
+                  child: Text(openPFD ? 'Close PFD' : 'Open PFD'),
+                  onPressed: () {
+                    setState(() {
+                      openPFD = !openPFD;
+                    });
+                    unityViewController.send(
+                      'Cybertruck',
+                      'toggle',
+                      'passengerfrontdoor,$openPFD',
+                    );
+                  },
+                ),
+                RaisedButton(
+                  child: Text(openPRD ? 'Close PRD' : 'Open PRD'),
+                  onPressed: () {
+                    setState(() {
+                      openPRD = !openPRD;
+                    });
+                    unityViewController.send(
+                      'Cybertruck',
+                      'toggle',
+                      'passengerreardoor,$openPRD',
+                    );
+                  },
+                ),
               ],
             ),
         ],
