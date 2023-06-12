@@ -1,14 +1,14 @@
-name: flutter_unity_example
+name: unity_tesla_cypertruck
 description: Demonstrates how to use the flutter_unity plugin.
 publish_to: "none"
 
 environment:
-  sdk: ">=2.2.2 <3.0.0"
+  sdk: ">=3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  flutter_unity: ^0.2.1+4
+  flutter_unity_widget: ^2022.3.0-alpha1
 
 flutter:
   uses-material-design: true
